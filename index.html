@@ -1,12 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>WeatherNow</title>
-	<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeatherNow</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	
+  <main class="container">
+    <h1 class="app-title">WeatherNow</h1>
+
+    <section class="search-section">
+      <div class="search-row">
+        <input
+          type="text"
+          id="cityInput"
+          placeholder="Enter city name"
+          aria-label="City name"
+        />
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <p id="message" class="message"></p>
+      <div id="recentSearches" class="recent-searches"></div>
+    </section>
+
+    <section id="errorBanner" class="error-banner hidden">
+      <span id="errorText">Something went wrong.</span>
+      <button id="retryBtn">Retry</button>
+    </section>
+
+    <section class="current-weather-card">
+      <h2 id="cityName" class="skeleton skeleton-text">City Name</h2>
+      <p id="temperature" class="skeleton skeleton-text">--°C</p>
+      <p id="description" class="skeleton skeleton-text">Weather description</p>
+      <p id="humidity" class="skeleton skeleton-text">Humidity: --%</p>
+      <p id="windSpeed" class="skeleton skeleton-text">Wind: -- km/h</p>
+      <p id="localTime" class="skeleton skeleton-text">Time: --</p>
+    </section>
+
+    <section class="forecast-section">
+      <h2>7-Day Forecast</h2>
+      <div id="forecastContainer" class="forecast-grid">
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Mon</p>
+          <p class="forecast-icon skeleton skeleton-box">☀️</p>
+          <p class="forecast-temp skeleton skeleton-text">30°C / 24°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Tue</p>
+          <p class="forecast-icon skeleton skeleton-box">🌧️</p>
+          <p class="forecast-temp skeleton skeleton-text">29°C / 23°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Wed</p>
+          <p class="forecast-icon skeleton skeleton-box">⛅</p>
+          <p class="forecast-temp skeleton skeleton-text">31°C / 25°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Thu</p>
+          <p class="forecast-icon skeleton skeleton-box">☁️</p>
+          <p class="forecast-temp skeleton skeleton-text">28°C / 22°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Fri</p>
+          <p class="forecast-icon skeleton skeleton-box">🌩️</p>
+          <p class="forecast-temp skeleton skeleton-text">27°C / 21°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Sat</p>
+          <p class="forecast-icon skeleton skeleton-box">🌦️</p>
+          <p class="forecast-temp skeleton skeleton-text">30°C / 24°C</p>
+        </article>
+
+        <article class="forecast-card">
+          <p class="forecast-day skeleton skeleton-text">Sun</p>
+          <p class="forecast-icon skeleton skeleton-box">☀️</p>
+          <p class="forecast-temp skeleton skeleton-text">32°C / 25°C</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
