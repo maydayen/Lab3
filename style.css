@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.app-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-section {
+  margin-bottom: 1.5rem;
+}
+
+.search-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+#cityInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#searchBtn,
+#retryBtn {
+  padding: 0.85rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #2f6fed;
+  color: white;
+  cursor: pointer;
+}
+
+#searchBtn:hover,
+#retryBtn:hover {
+  opacity: 0.9;
+}
+
+.message {
+  margin-top: 0.75rem;
+  color: #b00020;
+  min-height: 1.2rem;
+}
+
+.error-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #ffe3e3;
+  color: #9b0000;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.current-weather-card,
+.forecast-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.current-weather-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.current-weather-card h2 {
+  margin-bottom: 1rem;
+}
+
+.current-weather-card p {
+  margin-bottom: 0.7rem;
+}
+
+.forecast-section h2 {
+  margin-bottom: 1rem;
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.forecast-card {
+  padding: 1rem;
+  text-align: center;
+}
+
+.forecast-day {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.forecast-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.recent-searches {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.search-chip {
+  padding: 0.45rem 0.8rem;
+  background: #dce7ff;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
