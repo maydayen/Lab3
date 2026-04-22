@@ -116,3 +116,20 @@ async function fetchCoordinates(city) {
 
   return data.results[0];
 }
+
+async function fetchWeather(lat, lon, controller) {
+  const weatherUrl =
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+    `&current_weather=true` +
+    `&hourly=temperature_2m,relativehumidity_2m,windspeed_10m` +
+    `&daily=temperature_2m_max,temperature_2m_min,weathercode` +
+    `&timezone=auto`;
+
+  const response = await fetch(weatherUrl, { signal: controller.signal });
+
+  if (!response.ok) {
+    throw new Error(`Weather request failed: HTTP ${response.status}`);
+  }
+
+  return await response.json();
+}
