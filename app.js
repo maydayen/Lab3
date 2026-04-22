@@ -98,3 +98,21 @@ function validateCityInput(city) {
   clearMessage();
   return true;
 }
+
+async function fetchCoordinates(city) {
+  const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
+
+  const response = await fetch(geoUrl);
+
+  if (!response.ok) {
+    throw new Error(`Geocoding request failed: HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!data.results || data.results.length === 0) {
+    return null;
+  }
+
+  return data.results[0];
+}
