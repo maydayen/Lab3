@@ -83,3 +83,18 @@ function addSkeletons() {
   windSpeedEl.className = "skeleton skeleton-text";
   localTimeEl.className = "skeleton skeleton-text";
 }
+
+function validateCityInput(city) {
+  if (!city.trim()) {
+    showMessage("Please enter a city name.");
+    return false;
+  }
+
+  if (city.trim().length < 2) {
+    showMessage("Please enter at least 2 characters.");
+    return false;
+  }
+
+  clearMessage();
+  return true;
+}
