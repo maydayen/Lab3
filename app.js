@@ -148,3 +148,26 @@ function renderCurrentWeather(city, weatherData) {
   humidityEl.textContent = `Humidity: ${humidityValue}%`;
   windSpeedEl.textContent = `Wind: ${windValue} km/h`;
 }
+
+function renderForecast(weatherData) {
+  forecastContainer.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+    const code = weatherData.daily.weathercode[i];
+    const info = getWeatherInfo(code);
+
+    const card = document.createElement("article");
+    card.className = "forecast-card";
+
+    card.innerHTML = `
+      <p class="forecast-day">${formatDay(weatherData.daily.time[i])}</p>
+      <p class="forecast-icon">${info.icon}</p>
+      <p class="forecast-temp">
+        ${Math.round(weatherData.daily.temperature_2m_max[i])}°C /
+        ${Math.round(weatherData.daily.temperature_2m_min[i])}°C
+      </p>
+    `;
+
+    forecastContainer.appendChild(card);
+  }
+}
