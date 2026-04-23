@@ -171,3 +171,55 @@ function renderForecast(weatherData) {
     forecastContainer.appendChild(card);
   }
 }
+
+async function searchWeather(city) {
+  if (!validateCityInput(city)) return;
+
+  hideErrorBanner();
+  clearMessage();
+  addSkeletons();
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+  try {
+    const location = await fetchCoordinates(city);
+
+    if (!location) {
+      clearTimeout(timeoutId);
+      showMessage("City not found. Please try another search.");
+      return;
+    }
+
+    const weatherData = await fetchWeather(
+      location.latitude,
+      location.longitude,
+      controller
+    );
+
+    clearTimeout(timeoutId);
+
+    currentWeatherData = {
+      city: location.name,
+      weatherData: weatherData,
+      timezone: weatherData.timezone || location.timezone || null
+    };
+
+    lastSearchedCity = location.name;
+
+    renderCurrentWeather(location.name, weatherData);
+    renderForecast(weatherData);
+    removeSkeletons();
+
+    fetchLocalTime(currentWeatherData.timezone);
+    saveRecentSearch(location.name);
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    if (error.name === "AbortError") {
+      showErrorBanner("Request timed out after 10 seconds.");
+    } else {
+      showErrorBanner(error.message || "Failed to fetch weather data.");
+    }
+  }
+}
