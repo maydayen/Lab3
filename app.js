@@ -133,3 +133,18 @@ async function fetchWeather(lat, lon, controller) {
 
   return await response.json();
 }
+
+function renderCurrentWeather(city, weatherData) {
+  const weatherInfo = getWeatherInfo(weatherData.current_weather.weathercode);
+
+  cityNameEl.textContent = city;
+  temperatureEl.textContent = `${weatherData.current_weather.temperature}°C`;
+  descriptionEl.textContent = `${weatherInfo.icon} ${weatherInfo.text}`;
+
+  const currentHourIndex = new Date().getHours();
+  const humidityValue = weatherData.hourly.relativehumidity_2m[currentHourIndex] ?? "--";
+  const windValue = weatherData.current_weather.windspeed ?? "--";
+
+  humidityEl.textContent = `Humidity: ${humidityValue}%`;
+  windSpeedEl.textContent = `Wind: ${windValue} km/h`;
+}
