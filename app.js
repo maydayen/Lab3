@@ -262,3 +262,15 @@ cityInput.addEventListener("keypress", (event) => {
     searchWeather(cityInput.value);
   }
 });
+
+cityInput.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(() => {
+    const city = cityInput.value.trim();
+
+    if (city.length >= 2) {
+      searchWeather(city);
+    }
+  }, 500);
+});
