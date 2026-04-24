@@ -246,3 +246,19 @@ function fetchLocalTime(timezone) {
 function showBrowserLocalTime() {
   localTimeEl.textContent = `Time: ${new Date().toLocaleString()}`;
 }
+
+searchBtn.addEventListener("click", () => {
+  searchWeather(cityInput.value);
+});
+
+retryBtn.addEventListener("click", () => {
+  if (lastSearchedCity) {
+    searchWeather(lastSearchedCity);
+  }
+});
+
+cityInput.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    searchWeather(cityInput.value);
+  }
+});
