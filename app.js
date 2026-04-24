@@ -223,3 +223,26 @@ async function searchWeather(city) {
     }
   }
 }
+
+function fetchLocalTime(timezone) {
+  if (!timezone) {
+    showBrowserLocalTime();
+    return;
+  }
+
+  $.getJSON(`https://worldtimeapi.org/api/timezone/${timezone}`)
+    .done(function (data) {
+      const dateTime = new Date(data.datetime);
+      localTimeEl.textContent = `Time: ${dateTime.toLocaleString()}`;
+    })
+    .fail(function () {
+      showBrowserLocalTime();
+    })
+    .always(function () {
+      console.log("Time request finished at:", new Date().toLocaleString());
+    });
+}
+
+function showBrowserLocalTime() {
+  localTimeEl.textContent = `Time: ${new Date().toLocaleString()}`;
+}
