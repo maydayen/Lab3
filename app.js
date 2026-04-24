@@ -172,7 +172,7 @@ function renderForecast(weatherData) {
   }
 }
 
-async function searchWeather(city) {
+async function searchWeather(city, saveHistory = false) {
   if (!validateCityInput(city)) return;
 
   hideErrorBanner();
@@ -212,7 +212,10 @@ async function searchWeather(city) {
     removeSkeletons();
 
     fetchLocalTime(currentWeatherData.timezone);
-    saveRecentSearch(location.name);
+    if (saveHistory) {
+      saveRecentSearch(location.name);
+    }
+    
   } catch (error) {
     clearTimeout(timeoutId);
 
@@ -248,7 +251,7 @@ function showBrowserLocalTime() {
 }
 
 searchBtn.addEventListener("click", () => {
-  searchWeather(cityInput.value);
+  searchWeather(cityInput.value, true);
 });
 
 retryBtn.addEventListener("click", () => {
@@ -259,7 +262,7 @@ retryBtn.addEventListener("click", () => {
 
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-    searchWeather(cityInput.value);
+    searchWeather(cityInput.value, true);
   }
 });
 
@@ -270,7 +273,41 @@ cityInput.addEventListener("input", () => {
     const city = cityInput.value.trim();
 
     if (city.length >= 2) {
-      searchWeather(city);
+      searchWeather(city, false);
     }
   }, 500);
 });
+
+function saveRecentSearch(city) {
+  let searches = JSON.parse(localStorage.getItem("recentCities")) || [];
+
+  searches = searches.filter((item) => item.toLowerCase() !== city.toLowerCase());
+  searches.unshift(city);
+
+  if (searches.length > 5) {
+    searches = searches.slice(0, 5);
+  }
+
+  localStorage.setItem("recentCities", JSON.stringify(searches));
+  renderRecentSearches();
+}
+
+function renderRecentSearches() {
+  const searches = JSON.parse(localStorage.getItem("recentCities")) || [];
+  recentSearchesEl.innerHTML = "";
+
+  searches.forEach((city) => {
+    const chip = document.createElement("span");
+    chip.className = "search-chip";
+    chip.textContent = city;
+
+    chip.addEventListener("click", () => {
+      cityInput.value = city;
+      searchWeather(city);
+    });
+
+    recentSearchesEl.appendChild(chip);
+  });
+}
+
+renderRecentSearches();
