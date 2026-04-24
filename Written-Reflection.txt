@@ -1,0 +1,7 @@
+In this lab, I used both Fetch API and jQuery AJAX to retrieve data from external APIs. This allowed me to compare their differences in syntax, error handling and overall usability. The Fetch API uses modern JavaScript features such as promises and async/await which makes the code more structured. By writing asynchronous code in a synchronous style, it becomes easier to understand the flow of operations especially when chaining multiple API calls such as geocoding followed by weather data retrieval.
+
+Apart from that, jQuery AJAX uses methods such as `.done()`, `.fail()`, and `.always()` for handling responses. Although this approach is useful, it can feel a bit harder to follow compared to async or await for more complex logic. However, jQuery AJAX provides a straightforward way to handle success and failure cases without needing additional syntax like try/catch blocks which can be convenient for simpler tasks.
+
+In terms of error handling, the Fetch API requires us to manually check the response status using `response.ok. It gives developers more control but also requires extra steps. However for jQuery AJAX, it automatically separates success and failure through its chaining methods which makes it simpler to implement basic error handling.
+
+Overall, I prefer the Fetch API because it is more modern, flexible, and easier to scale for larger applications. However, jQuery AJAX is still useful for quick implementations and maintaining compatibility with older codebases.
