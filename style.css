@@ -54,6 +54,31 @@ body {
   opacity: 0.9;
 }
 
+/* ===== Top Row (Title + Toggle) ===== */
+.search-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* ===== Toggle Button ===== */
+.toggle-btn {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #2f6fed;
+  background: white;
+  color: #2f6fed;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toggle-btn:hover {
+  background: #2f6fed;
+  color: white;
+}
+
 .message {
   margin-top: 0.75rem;
   color: #b00020;

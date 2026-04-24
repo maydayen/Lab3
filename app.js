@@ -207,6 +207,9 @@ async function searchWeather(city, saveHistory = false) {
 
     lastSearchedCity = location.name;
 
+    currentUnit = "C";
+    unitToggle.textContent = "°C";
+
     renderCurrentWeather(location.name, weatherData);
     renderForecast(weatherData);
     removeSkeletons();
@@ -239,7 +242,15 @@ function fetchLocalTime(timezone) {
       localTimeEl.textContent = `Time: ${dateTime.toLocaleString()}`;
     })
     .fail(function () {
-      showBrowserLocalTime();
+      try {
+        const cityTime = new Date().toLocaleString("en-US", {
+          timeZone: timezone
+        });
+
+        localTimeEl.textContent = `Time: ${cityTime}`;
+      } catch (error) {
+        showBrowserLocalTime();
+      }
     })
     .always(function () {
       console.log("Time request finished at:", new Date().toLocaleString());
@@ -273,7 +284,7 @@ cityInput.addEventListener("input", () => {
     const city = cityInput.value.trim();
 
     if (city.length >= 2) {
-      searchWeather(city, false);
+      searchWeather(city, false); 
     }
   }, 500);
 });
@@ -303,7 +314,7 @@ function renderRecentSearches() {
 
     chip.addEventListener("click", () => {
       cityInput.value = city;
-      searchWeather(city);
+      searchWeather(city, true);
     });
 
     recentSearchesEl.appendChild(chip);
@@ -311,3 +322,65 @@ function renderRecentSearches() {
 }
 
 renderRecentSearches();
+
+const unitToggle = document.getElementById("unitToggle");
+
+function cToF(c) {
+  return (c * 9) / 5 + 32;
+}
+
+function updateTemperatureUnit() {
+  if (!currentWeatherData) return;
+
+  const { city, weatherData } = currentWeatherData;
+
+  const weatherInfo = getWeatherInfo(weatherData.current_weather.weathercode);
+
+  let temp = weatherData.current_weather.temperature;
+  let maxTemps = weatherData.daily.temperature_2m_max;
+  let minTemps = weatherData.daily.temperature_2m_min;
+
+  if (currentUnit === "F") {
+    temp = cToF(temp);
+    maxTemps = maxTemps.map(cToF);
+    minTemps = minTemps.map(cToF);
+  }
+
+  cityNameEl.textContent = city;
+  temperatureEl.textContent = `${Math.round(temp)}°${currentUnit}`;
+  descriptionEl.textContent = `${weatherInfo.icon} ${weatherInfo.text}`;
+
+  const hour = new Date().getHours();
+  humidityEl.textContent = `Humidity: ${weatherData.hourly.relativehumidity_2m[hour]}%`;
+  windSpeedEl.textContent = `Wind: ${weatherData.current_weather.windspeed} km/h`;
+
+  // Forecast
+  forecastContainer.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+    const info = getWeatherInfo(weatherData.daily.weathercode[i]);
+
+    const card = document.createElement("article");
+    card.className = "forecast-card";
+
+    card.innerHTML = `
+      <p class="forecast-day">${formatDay(weatherData.daily.time[i])}</p>
+      <p class="forecast-icon">${info.icon}</p>
+      <p class="forecast-temp">
+        ${Math.round(maxTemps[i])}°${currentUnit} /
+        ${Math.round(minTemps[i])}°${currentUnit}
+      </p>
+    `;
+
+    forecastContainer.appendChild(card);
+  }
+}
+
+unitToggle.addEventListener("click", () => {
+  currentUnit = currentUnit === "C" ? "F" : "C";
+
+  // Update button text
+  unitToggle.textContent = `°${currentUnit}`;
+
+  updateTemperatureUnit();
+});
